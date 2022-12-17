@@ -1,1 +1,1 @@
-# NBA-salary-prediction-
+# NBA-salary-prediction
