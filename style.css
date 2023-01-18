@@ -1,0 +1,41 @@
+.block-container{
+    padding-top: 30px;
+}
+
+[data-testid="stMetricValue"] {
+    font-size: 100px;
+}
+
+[data-testid="stMetricValue"] > div:nth-child(1)::after{
+    content: " $ ～";
+    white-space: pre;
+}
+
+[data-testid="metric-container"] {
+    width: fit-content;
+    margin: auto;
+}
+
+[data-testid="metric-container"] > div {
+    width: fit-content;
+    margin: auto;
+}
+
+[data-testid="metric-container"] label {
+    width: fit-content;
+    margin: auto;
+}
+
+[data-testid="stMetricDelta"] > div:nth-child(2) {
+    font-size: 30px
+}
+
+[data-testid="stMetricLabel"] > div > div > p {
+    font-size: 30px;
+}
+
+[data-testid="stMetricDelta"] > div:nth-child(2)::after {
+    content: " from the salary asked";
+    white-space: pre;
+    color: white;
+}
