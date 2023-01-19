@@ -1,5 +1,6 @@
 .block-container{
     padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 [data-testid="stMetricValue"] {
@@ -7,7 +8,7 @@
 }
 
 [data-testid="stMetricValue"] > div:nth-child(1)::after{
-    content: " $ ～";
+    content: " $";
     white-space: pre;
 }
 
@@ -39,3 +40,17 @@
     white-space: pre;
     color: white;
 }
+
+[data-testid="stSidebar"] {
+    width: 150px !important;
+    min-width: 100px !important;
+}
+
+[data-testid="stSidebarNav"] > ul > li > div {
+    align-items: center !important;
+}
+
+[data-testid="stSidebarNav"] > ul > li {
+    margin-bottom: 20px;
+}
+

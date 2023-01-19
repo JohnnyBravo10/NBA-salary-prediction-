@@ -9,8 +9,22 @@ def setInitialPageConf():
         page_title="NBA Salary Predictor APP",
         page_icon="🏀",
         layout="wide",
+        initial_sidebar_state="collapsed"
     )
     st.markdown('<style>' + open('C:/Users/pelli/Documents/Exam_Project_224MI/style.css').read() + '</style>', unsafe_allow_html=True)
+
+def notANumber(item):
+    return not item.isnumeric() or item[0] == '0'
+
+def inputChecker(my_list):
+    result = True
+    for item in my_list:
+        if item == '' or notANumber(item):
+            print("daads")
+            result = False
+            break
+    
+    return result
 
 setInitialPageConf()
 
@@ -137,21 +151,28 @@ with st.expander("Glossary"):
                     st.markdown(">The point differential when a player or team is on the floor")
           
 salary_predicted = None
+my_list = [age, w, l, min_played, fgm, fga, _3pm, _3pa, ftm, fta, oreb, dreb, ast, tov, stl, blk, pf, plus_min, dur, salary_asked]
 
-if submit: 
-    inputs = [[int(age), int(w), int(l), int(min_played), int(fgm), int(fga), int(_3pm), int(_3pa), int(ftm), int(fta), int(oreb), int(dreb), int(ast), int(tov), int(stl), int(blk), int(pf), int(plus_min), int(dur)]]
-    
-    salary_predicted = cl.Number(int(MLF.prediction(inputs)))
+if submit:
+    if inputChecker(my_list):
+        if int(age) > 0 and int(w) < 98 and int(fgm) < int(fga) and int(ftm) < int(fta) and int(_3pm) < int(_3pa) and int(dur) > 0: 
+            inputs = [[int(age), int(w), int(l), int(min_played), int(fgm), int(fga), int(_3pm), int(_3pa), int(ftm), int(fta), int(oreb), int(dreb), int(ast), int(tov), int(stl), int(blk), int(pf), int(plus_min), int(dur)]]
             
-    deltaValue = cl.Number(salary_predicted.getN() - int(salary_asked))
-    
-    player = cl.Player(name, surname, int(salary_asked), salary_predicted.getN(), age, w, min_played, fgm, fga, ftm, fta, oreb, dreb, ast, tov, stl, blk, pf, dur)
-    
-    if "my_list" not in st.session_state:
-        st.session_state["my_list"] = []
-        st.session_state["my_list"].append(player)
+            salary_predicted = cl.Number(int(MLF.prediction(inputs)))
+                    
+            deltaValue = cl.Number(salary_predicted.getN() - int(salary_asked))
+            
+            player = cl.Player(name, surname, int(salary_asked), salary_predicted.getN(), age, w, min_played, fgm, fga, ftm, fta, oreb, dreb, ast, tov, stl, blk, pf, dur)
+            
+            if "my_list" not in st.session_state:
+                st.session_state["my_list"] = []
+                st.session_state["my_list"].append(player)
+            else:
+                st.session_state["my_list"].append(player)
+        else:
+            st.error("Some of the given inputs are not valid", icon="🔥")
     else:
-        st.session_state["my_list"].append(player)
+        st.error("Some of the given inputs are not valid", icon="🔥")
 
 if salary_predicted:
     with st.container():    
@@ -219,4 +240,14 @@ with col6:
                 st.markdown(":red[" + price.getFormattedN() + " $]")
             else:
                 st.markdown(":green[" + price.getFormattedN() + " $]")
+                
+st.markdown("---")
+
+footer = cl.Text("footer", "Project developed for university exam. Images used in this project do not belong to me. Languages used: Python, CSS, HTML", "center")
+footer.setColor("#828A95")
+footer.setFontSize("14px")
+st.markdown(footer.displayEntity(), unsafe_allow_html=True)
+
+st.markdown("---")
+
        

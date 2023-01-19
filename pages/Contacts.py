@@ -13,6 +13,7 @@ def setInitialPageConf():
 setInitialPageConf()
 
 title = cl.Text("h1", "Team Project", "center")
+title.setMargins("0px", "100px", "0px", "0px")
 st.markdown(title.displayEntity(), unsafe_allow_html = True)
 
 col1, col2 = st.columns(2, gap="large")
@@ -39,6 +40,8 @@ with col2:
         contact2 = cl.Contact(urlProfilePicture, name_surname, occupation, course, github_link)
         contact2.displayContact()
     
+    
+
 
   
         

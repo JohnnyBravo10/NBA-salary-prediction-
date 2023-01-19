@@ -66,13 +66,45 @@ class Player:
         return self.salary_predicted
 
 class Text:
-    def __init__(self, titleType, text, align):
-        self.titleType = titleType
+    def __init__(self, textType, text, align):
+        self.textType = textType
         self.text = text
         self.align = align
+        self.color = None
+        self.fontSize = None
+        self.mTop= None
+        self.mBottom = None
+        self.mLeft = None
+        self.mRight = None
+        
+    def setColor(self, color):
+        self.color = color
+        
+    def setFontSize(self, fontSize):
+        self.fontSize = fontSize
+        
+    def setMargins(self, top, bottom, left, right):
+        self.mTop= top
+        self.mBottom = bottom
+        self.mLeft = left
+        self.mRight = right
         
     def displayEntity(self):
-        content = '''<%s style="text-align: %s;">%s</%s>''' % (self.titleType, self.align, self.text, self.titleType)
+        content = '''<%s style="text-align:%s;''' % (self.textType, self.align)
+        if self.color is not None:
+            content += '''color:%s;''' % (self.color)
+        if self.fontSize is not None:
+            content += '''font-size:%s;''' % (self.fontSize)
+        if self.mTop is not None:
+            content += '''margin-top:%s;''' % (self.mTop)
+        if self.mBottom is not None:
+            content += '''margin-bottom:%s;''' % (self.mBottom)
+        if self.mLeft is not None:
+            content += '''margin-left:%s;''' % (self.mLeft)
+        if self.mRight is not None:
+            content += '''margin-right:%s;''' % (self.mRight)
+        
+        content += '''">%s</%s>''' % (self.text, self.textType)
         return content
     
     
