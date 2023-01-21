@@ -41,10 +41,6 @@
     color: white;
 }
 
-[data-testid="stSidebarNav"] > ul > li > div {
-    align-items: center !important;
-}
-
 [data-testid="stSidebarNav"] > ul > li {
     margin-bottom: 20px;
 }
