@@ -1,6 +1,6 @@
 import streamlit as st
 import classes as cl
-import urllib2 
+import urllib3 
 
 def setInitialPageConf():
     st.set_page_config(
@@ -9,7 +9,9 @@ def setInitialPageConf():
         layout="wide",
         initial_sidebar_state="collapsed"
     )
-    st.markdown('<style>' + urllib2.urlopen('https://raw.githubusercontent.com/Fedrosauro/NBA-salary-prediction-/main/style.css').read() + '</style>', unsafe_allow_html=True)
+    
+    http = urllib3.PoolManager()
+    st.markdown('<style>' + http.request('GET','https://raw.githubusercontent.com/Fedrosauro/NBA-salary-prediction-/main/style.css').data.decode('utf-8') + '</style>', unsafe_allow_html=True)
 
 setInitialPageConf()
 
