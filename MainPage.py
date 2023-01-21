@@ -1,5 +1,6 @@
 import streamlit as st
 import classes as cl
+import urllib2 
 
 def setInitialPageConf():
     st.set_page_config(
@@ -8,7 +9,7 @@ def setInitialPageConf():
         layout="wide",
         initial_sidebar_state="collapsed"
     )
-    st.markdown('<style>' + open('C:/Users/pelli/Documents/Exam_Project_224MI/style.css').read() + '</style>', unsafe_allow_html=True)
+    st.markdown('<style>' + urllib2.urlopen('https://raw.githubusercontent.com/Fedrosauro/NBA-salary-prediction-/main/style.css').read() + '</style>', unsafe_allow_html=True)
 
 setInitialPageConf()
 
