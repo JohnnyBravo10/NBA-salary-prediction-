@@ -41,11 +41,6 @@
     color: white;
 }
 
-[data-testid="stSidebar"] {
-    width: 150px !important;
-    min-width: 100px !important;
-}
-
 [data-testid="stSidebarNav"] > ul > li > div {
     align-items: center !important;
 }
