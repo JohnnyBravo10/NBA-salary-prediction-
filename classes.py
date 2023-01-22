@@ -17,8 +17,7 @@ def setInitialPageConf():
     http = urllib3.PoolManager()
     st.markdown('<style>' + http.request('GET','https://raw.githubusercontent.com/Fedrosauro/NBA-salary-prediction-/main/style.css').data.decode('utf-8') + '</style>', unsafe_allow_html=True)
 
-
-class MainPageContainer:
+class Container:
     def __init__(self):
         self.internalList = []
         
@@ -29,6 +28,10 @@ class MainPageContainer:
         for item in self.internalList:
             st.markdown(item.displayEntity(), unsafe_allow_html=True)
         self.internalList = []
+
+class MainPageContainer(Container):
+    def __init__(self):
+        super().__init__()
         
     def diplayMainProcess(self):
         mainProcess = MainProcess()
@@ -259,12 +262,9 @@ class ValuesChecker:
         
         return result
     
-class ContactContainer:
+class ContactContainer(Container):
     def __init__(self):
-        self.internalList = []
-        
-    def addItem(self, item):
-        self.internalList.append(item)
+        super().__init__()
         
     def displayColumns(self, n, col_gap, contact_list):
         cols = ["col" + str(x) for x in range(n)]
@@ -272,25 +272,12 @@ class ContactContainer:
         i = 0
         for column in cols:
             with column:
-                contact_list[i].displayContact()
+                contact_list[i].displayEntity()
                 i += 1
-        
-    def displayEntity(self):
-        for item in self.internalList:
-            st.markdown(item.displayEntity(), unsafe_allow_html=True)
-        self.internalList = []
 
-class DescriptionContainer:
+class DescriptionContainer(Container):
     def __init__(self):
-        self.internalList = []
-        
-    def addItem(self, item):
-        self.internalList.append(item)
-        
-    def displayEntity(self):
-        for item in self.internalList:
-            st.markdown(item, unsafe_allow_html=True)
-        self.internalList = []
+        super().__init__()
 
 class Result:
     def __init__(self, n):
@@ -319,7 +306,7 @@ class Tweets:
             self.text = s
             
     def displayEntity(self):
-        return components.html(self.text, height = 500, scrolling=True)
+        components.html(self.text, height = 500, scrolling=True)
 
 class Player:
     def __init__(self, name, surname, salary_asked, salary_predicted):
@@ -405,7 +392,7 @@ class Contact:
         self.course = course
         self.github_link = github_link
         
-    def displayContact(self):
+    def displayEntity(self):
         image1 = Image(self.urlProfilePicture, "17%", True)
         st.markdown(image1.displayEntity(), unsafe_allow_html = True)
         

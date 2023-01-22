@@ -41,7 +41,4 @@
     color: white;
 }
 
-[data-testid="stSidebarNav"] > ul > li {
-    margin-bottom: 20px;
-}
 
