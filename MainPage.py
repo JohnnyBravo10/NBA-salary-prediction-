@@ -5,7 +5,6 @@ cl.setInitialPageConf()
 
 mainPageCont = cl.MainPageContainer()
 
-
 image1 = cl.Image("https://raw.githubusercontent.com/Fedrosauro/Images/main/nba-logo-transparent.png", "16%", False)
 title = cl.Text("h1", "Salary Predictor", "center")
 userInput = cl.Text("h3", "User Input", "center")
@@ -25,8 +24,8 @@ recentSearches = cl.Text("h3", "Recent Searches", "center")
 my_list = [twitterSectionTitleNBAStats, twitterSectionTitleNBA, recentSearches]
 mainPageCont.displayColumns([4,4,8], "small", my_list, True)
 
-tweet1 = cl.Tweets("https://twitter.com/nbastats?enablejsapi=1")    
-tweet2 = cl.Tweets("https://twitter.com/NBA?&theme=dark&&maxheight=480&enablejsapi=1")       
+tweet1 = cl.Tweets("https://twitter.com/nbastats?&theme=dark&maxheight=480")    
+tweet2 = cl.Tweets("https://twitter.com/NBA?&theme=dark&maxheight=480")       
 column1 = cl.ColumnsBuilder("Player Name")
 column2 = cl.ColumnsBuilder("Player Surname")
 column3 = cl.ColumnsBuilder("Salary Asked")

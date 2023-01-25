@@ -250,7 +250,7 @@ class Glossary:
 
 class ValuesChecker:
     def notANumber(self, item):
-        return not item.isnumeric() or item[0] == '0'
+        return not item.isnumeric()
     
     def inputChecker(self, my_list):
         result = True
@@ -306,7 +306,7 @@ class Tweets:
             self.text = s
             
     def displayEntity(self):
-        components.html(self.text, height = 500, scrolling=True)
+            components.html(self.text, height = 500, scrolling=True)
 
 class Player:
     def __init__(self, name, surname, salary_asked, salary_predicted):
