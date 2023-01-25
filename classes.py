@@ -126,7 +126,7 @@ class MainProcess:
         
         if submit:
             if valueChecker.inputChecker(my_list):
-                if int(age) > 0 and int(l) >= 0 and int(w) < 98 and int(fgm) < int(fga) and int(ftm) < int(fta) and int(_3pm) < int(_3pa) and int(dur) > 0: 
+                if int(age) > 0 and int(l) >= 0 and int(w) < 98 and int(fgm) <= int(fga) and int(ftm) <= int(fta) and int(_3pm) <= int(_3pa) and int(dur) > 0: 
                     inputs = [[int(age), int(w), int(l), int(min_played), int(fgm), int(fga), int(_3pm), int(_3pa), int(ftm), int(fta), int(oreb), int(dreb), int(ast), int(tov), int(stl), int(blk), int(pf), int(plus_min), int(dur)]]
                                 
                     salary_predicted = Result(int(MLF.prediction(inputs)))
