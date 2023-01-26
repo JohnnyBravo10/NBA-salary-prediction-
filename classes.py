@@ -17,7 +17,7 @@ def setInitialPageConf(): #function to set the initial page configuration
     
     http = urllib3.PoolManager() #object created to get external css file from URL
     #st.markdown('<style>' + open("C:/Users/pelli/Documents/Exam_Project_224MI/style.css").read() + '</style>', unsafe_allow_html=True)
-    st.markdown('<style>' + http.request('GET','https://raw.githubusercontent.com/Fedrosauro/NBA-salary-prediction-/main/style.css').data.decode('utf-8') + '</style>', unsafe_allow_html=True)
+    st.markdown('<style>' + http.request('GET','https://raw.githubusercontent.com/Fedrosauro/NBA-salary-prediction-/main/style.css?v=1.1').data.decode('utf-8') + '</style>', unsafe_allow_html=True)
 
 class Container: #super class container
     def __init__(self):
