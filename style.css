@@ -41,4 +41,96 @@
     color: white;
 }
 
+.block-container.css-18e3th9.egzxvld2 {
+    background-image: url('https://raw.githubusercontent.com/Fedrosauro/Images/main/Images/background.png');
+    background-repeat: no-repeat;
+    background-attachment: local;
+}
+
+.row-widget.css-k008qs.epcbefy2 > div{
+    text-align: center;  
+}
+
+[kind="secondaryFormSubmit"] {
+    position: relative;
+    box-sizing: border-box;
+    appearance: none;
+    background-color: transparent;
+    overflow: hidden;
+    z-index: 1;
+    border: 2px solid white;
+    transition: color 150ms ease-in-out;
+    width: 100px;
+}
+
+[kind="secondaryFormSubmit"]:after{
+    content: '';
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    width: 0;
+    height: 100%;
+    z-index: -1;
+    transition: width 150ms ease-in-out;
+}
+
+[kind="secondaryFormSubmit"]:hover:after{
+    width: 110%;
+}
+
+.css-5uatcg:hover{
+    color: black;
+    border-color: black;
+}
+
+.css-1p05t8e {
+    border: none;
+}
+
+
+[data-testid="stForm"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 15px !important; 
+  border: 2px solid transparent !important;
+  background: linear-gradient(45deg,orange,purple,#91A6FF) border-box;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) padding-box, 
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+[data-testid="stExpander"] {
+    position: relative;
+}
+
+.streamlit-expanderHeader::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 15px !important; 
+  border: 2px solid transparent !important;
+  background: linear-gradient(45deg,#EF476F,#9CFFFA,#FB8B24) border-box;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) padding-box, 
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+.css-renyox.e1fqkh3o2{
+    display: none;
+}
+
+
+
 

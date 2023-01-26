@@ -1,3 +1,4 @@
+#import libraries
 import streamlit.components.v1 as components
 import requests
 import streamlit as st
@@ -6,38 +7,39 @@ import time
 import random as rand
 import urllib3 
 
-def setInitialPageConf():
+def setInitialPageConf(): #function to set the initial page configuration
     st.set_page_config(
         page_title="NBA Salary Predictor APP",
         page_icon="🏀",
         layout="wide",
-        initial_sidebar_state="collapsed"
+        initial_sidebar_state="expanded"
     )
     
-    http = urllib3.PoolManager()
+    http = urllib3.PoolManager() #object created to get external css file from URL
+    #st.markdown('<style>' + open("C:/Users/pelli/Documents/Exam_Project_224MI/style.css").read() + '</style>', unsafe_allow_html=True)
     st.markdown('<style>' + http.request('GET','https://raw.githubusercontent.com/Fedrosauro/NBA-salary-prediction-/main/style.css').data.decode('utf-8') + '</style>', unsafe_allow_html=True)
 
-class Container:
+class Container: #super class container
     def __init__(self):
-        self.internalList = []
+        self.internalList = [] #list to store items of the web application
         
     def addItem(self, item):
         self.internalList.append(item)
         
-    def displayEntity(self):
+    def displayEntity(self): #function to display items in the web application (the list is emptied at the end)
         for item in self.internalList:
             st.markdown(item.displayEntity(), unsafe_allow_html=True)
         self.internalList = []
 
-class MainPageContainer(Container):
+class MainPageContainer(Container): #subclass of the container class
     def __init__(self):
         super().__init__()
         
-    def diplayMainProcess(self):
+    def diplayMainProcess(self): #specific function created to display the MainProcess object in the web application
         mainProcess = MainProcess()
         mainProcess.displayEntity()
         
-    def displayColumns(self, n, col_gap, items_list, use_markdown):
+    def displayColumns(self, n, col_gap, items_list, use_markdown): #function used to display columns
         cols = []
         if type(n) == list:
             cols = st.columns(n, gap=col_gap)
@@ -55,9 +57,9 @@ class MainPageContainer(Container):
                     items_list[i].displayEntity()
             i += 1
 
-class MainProcess:
-    def displayEntity(self):
-        with st.form("my_form"):
+class MainProcess: #core class used to create the interface for the user and to get the predicted salary of a player
+    def displayEntity(self): #function that create and display the MainProcess in the web application
+        with st.form("my_form"): #form for the user input
            col1, col2, col3 = st.columns(3)
            with col1:
                name = st.text_input("Player Name")
@@ -108,32 +110,33 @@ class MainProcess:
                dur = st.text_input('DUR')
                
            submit = st.form_submit_button("Submit")
-        
-               
+           #end of the form
+           
         labels1 = ['AGE','W', 'L', 'MIN','FGM','FGA', '3PM']
         labels2 = ['3PA', 'FTM','FTA','OREB','DREB','AST']
         labels3 = ['TOV','STL','BLK','PF', '+/-', 'DUR']
         
-        label_list = [labels1, labels2, labels3]
+        label_list = [labels1, labels2, labels3] #labels used for the glossary section
         
-        glossary = Glossary(label_list)
-        glossary.displayEntity()
+        #creation of the Glossary and displaying it
+        glossary = Glossary(label_list) 
+        glossary.displayEntity() 
                   
         salary_predicted = None
-        my_list = [age, w, l, min_played, fgm, fga, _3pm, _3pa, ftm, fta, oreb, dreb, ast, tov, stl, blk, pf, plus_min, dur, salary_asked]
+        my_list = [age, w, l, min_played, fgm, fga, _3pm, _3pa, ftm, fta, oreb, dreb, ast, tov, stl, blk, pf, dur, salary_asked]
         
-        valueChecker = ValuesChecker()
+        valueChecker = ValuesChecker() #creation of the object that will check the input values of the user
         
-        if submit:
-            if valueChecker.inputChecker(my_list):
+        if submit: #if button is pressed
+            if valueChecker.inputChecker(my_list): #if the input values are numbers or not empty
                 if int(age) > 0 and int(l) >= 0 and int(w) < 98 and int(fgm) <= int(fga) and int(ftm) <= int(fta) and int(_3pm) <= int(_3pa) and int(dur) > 0: 
                     inputs = [[int(age), int(w), int(l), int(min_played), int(fgm), int(fga), int(_3pm), int(_3pa), int(ftm), int(fta), int(oreb), int(dreb), int(ast), int(tov), int(stl), int(blk), int(pf), int(plus_min), int(dur)]]
                                 
-                    salary_predicted = Result(int(MLF.prediction(inputs)))
+                    salary_predicted = Result(int(MLF.prediction(inputs))) #create the Result object that contains the prediction made
                             
-                    deltaValue = Result(salary_predicted.getN() - int(salary_asked))
+                    deltaValue = Result(salary_predicted.getN() - int(salary_asked)) 
                     
-                    player = Player(name, surname, int(salary_asked), salary_predicted.getN())
+                    player = Player(name, surname, int(salary_asked), salary_predicted.getN()) #player creation to used it later for "Recent Searches creation" and session_state
                     
                     if "my_list" not in st.session_state:
                         st.session_state["my_list"] = []
@@ -145,7 +148,7 @@ class MainProcess:
             else:
                 st.error("Some of the given inputs are not valid", icon="🔥")
         
-        if salary_predicted:
+        if salary_predicted: #displaying the prediction and the delta between the asked salary and the predicted salary as metric
             with st.container():    
                 my_bar = st.progress(0)
                 time.sleep(0.3)    
@@ -158,11 +161,11 @@ class MainProcess:
                     
                 st.metric(label = "Predicted Salary", value=salary_predicted.getFormattedN(), delta=deltaValue.getFormattedN())
 
-class ColumnsBuilder:
+class ColumnsBuilder: #class used to build the columns in the last section of the MainPage webpage
     def __init__(self, col_name):
         self.col_name = col_name
         
-    def displayEntity(self):
+    def displayEntity(self): #displaying the specified columns
         if "my_list" in st.session_state:
             st.markdown("**" + self.col_name + "**")
             if self.col_name == "Player Name":
@@ -178,7 +181,7 @@ class ColumnsBuilder:
                     price = Result(NBA_player.getSalaryAsked())
                     st.markdown(str(price.getFormattedN()) + " $")
                     
-            elif self.col_name == "Salary Predicted":
+            elif self.col_name == "Prediction":
                 for NBA_player in st.session_state["my_list"]:
                     price = Result(NBA_player.getSalaryPredicted())
                     if NBA_player.getSalaryAsked() > NBA_player.getSalaryPredicted():
@@ -186,7 +189,7 @@ class ColumnsBuilder:
                     else:
                         st.markdown(":green[" + price.getFormattedN() + " $]")
  
-class Glossary:
+class Glossary: #class made for the glossary
     def __init__(self, label_list):
         self.label_list = label_list
     
@@ -248,25 +251,24 @@ class Glossary:
                             st.markdown(">The point differential when a player or team is on the floor")
         
 
-class ValuesChecker:
+class ValuesChecker: 
     def notANumber(self, item):
-        return not item.isnumeric()
+        return not item.isnumeric() #check if the value is an actual number
     
-    def inputChecker(self, my_list):
+    def inputChecker(self, my_list): 
         result = True
         for item in my_list:
             if item == '' or self.notANumber(item):
-                print("daads")
                 result = False
                 break
         
         return result
     
-class ContactContainer(Container):
+class ContactContainer(Container): #subclass of the container class
     def __init__(self):
         super().__init__()
         
-    def displayColumns(self, n, col_gap, contact_list):
+    def displayColumns(self, n, col_gap, contact_list): #displayColumns function (different from the MainPageContainer one)
         cols = ["col" + str(x) for x in range(n)]
         cols = st.columns(n, gap=col_gap)
         i = 0
@@ -275,15 +277,15 @@ class ContactContainer(Container):
                 contact_list[i].displayEntity()
                 i += 1
 
-class DescriptionContainer(Container):
+class DescriptionContainer(Container): #subclass of the container class 
     def __init__(self):
         super().__init__()
 
-class Result:
+class Result: #class to keep numbers
     def __init__(self, n):
         self.n = n
         n_copy = '{:,}'.format(n)
-        self.nformatted = ""
+        self.nformatted = "" #creation of the formatted number ex.: 3.434.213 $
         for c in n_copy:
             if c == ',':
                 self.nformatted += "."
@@ -296,19 +298,19 @@ class Result:
     def getFormattedN(self):
         return self.nformatted
 
-class Tweets:
+class Tweets: #class for the tweet component
     def __init__(self, s, embed_str=False):
         if not embed_str:
-            api = "https://publish.twitter.com/oembed?url={}".format(s)
-            response = requests.get(api)
-            self.text = response.json()["html"]
+            api = "https://publish.twitter.com/oembed?url={}".format(s) #URL of the twitter timeline we want
+            response = requests.get(api) #getting the HTTP response
+            self.text = response.json()["html"] #convert the content from json to html
         else:
             self.text = s
             
-    def displayEntity(self):
+    def displayEntity(self): #display the entity
             components.html(self.text, height = 500, scrolling=True)
 
-class Player:
+class Player: #player class used to keep track of the players seached by the users
     def __init__(self, name, surname, salary_asked, salary_predicted):
         self.name = name
         self.surname = surname
@@ -327,7 +329,7 @@ class Player:
     def getSalaryPredicted(self):
         return self.salary_predicted
 
-class Text:
+class Text: #class text used to display text in a HTML format
     def __init__(self, textType, text, align):
         self.textType = textType
         self.text = text
@@ -351,7 +353,7 @@ class Text:
         self.mLeft = left
         self.mRight = right
         
-    def displayEntity(self):
+    def displayEntity(self): #creation of the HTML tag with custom parameters
         content = '''<%s style="text-align:%s;''' % (self.textType, self.align)
         if self.color is not None:
             content += '''color:%s;''' % (self.color)
@@ -370,7 +372,7 @@ class Text:
         return content
     
     
-class Image:
+class Image: #image class used to display HTML images
     def __init__(self, path, width, curve):
         self.path = path
         self.width = width
@@ -384,7 +386,7 @@ class Image:
         content = '''<img src="%s" style="display: block; margin-left: auto; margin-right: auto; width: %s; border-radius: %s">''' % (self.path, self.width, self.curve)
         return content
     
-class Contact:
+class Contact: #contact class used to store informations about contacts
     def __init__(self, urlProfilePicture, name_surname, occupation, course, github_link):
         self.urlProfilePicture = urlProfilePicture
         self.name_surname = name_surname
